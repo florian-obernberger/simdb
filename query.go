@@ -191,21 +191,22 @@ func in(x, y interface{}) (bool, error) {
 // notIn checks if x doesn't exists in y e.g: in("id", []int{1,3,5,8})
 func notIn(x, y interface{}) (bool, error) {
 	b, err := in(x, y)
-	fmt.Printf("x: %s\n", x)
-	fmt.Printf("y: %s\n", y)
 	return !b, err
 }
 
 // holds checks if x contains y e.g: holds("[1,2,3]", 1)
 func holds(x, y interface{}) (bool, error) {
 	b, err := in(y, x)
+	fmt.Printf("x: %s\n\ttype: %t\n", x, x)
+	fmt.Printf("y: %s\n\ttype: %t\n", y, y)
+	fmt.Printf("y holds y: %t", b)
 	return b, err
 }
 
 // notHolds checks if x doesn't contain y e.g: notHolds("[1,2,3]", 1)
 func notHolds(x, y interface{}) (bool, error) {
-	b, err := notIn(y, x)
-	return b, err
+	b, err := holds(y, x)
+	return !b, err
 }
 
 // lenEq checks if the string/array/list value is equal
