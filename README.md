@@ -16,7 +16,7 @@ Let's have a look at, how to store some data and manipulate them using simd.
 ```GO
 package main
 
-import db "github.com/sonyarouje/simdb"
+import db "github.com/florian-obernberger/simdb"
 
 type Customer struct {
 	CustID string `json:"custid"`
