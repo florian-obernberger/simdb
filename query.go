@@ -27,6 +27,8 @@ const (
 	signStartsWith     = "startsWith"
 	signIn             = "in"
 	signNotIn          = "notIn"
+	signHolds          = "holds"
+	signNotHolds       = "notHolds"
 
 	signLenEq    = "leneq"
 	signLenNotEq = "lenneq"
@@ -192,6 +194,16 @@ func notIn(x, y interface{}) (bool, error) {
 	return !b, err
 }
 
+// holds checks if x contains y e.g: holds("[1,2,3]", 1)
+func holds(x, y interface{}) (bool, error) {
+	return in(y, x)
+}
+
+// notHolds checks if x doesn't contain y e.g: notHolds("[1,2,3]", 1)
+func notHolds(x, y interface{}) (bool, error) {
+	return notIn(y, x)
+}
+
 // lenEq checks if the string/array/list value is equal
 func lenEq(x, y interface{}) (bool, error) {
 	yv, ok := y.(int)
@@ -306,6 +318,9 @@ func loadDefaultQueryMap() map[string]QueryFunc {
 
 	queryMap[signIn] = in
 	queryMap[signNotIn] = notIn
+
+	queryMap[signHolds] = holds
+	queryMap[signNotHolds] = notHolds
 
 	queryMap[signLenEq] = lenEq
 	queryMap[signLenNotEq] = lenNotEq
