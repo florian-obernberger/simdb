@@ -166,6 +166,8 @@ func strEndsWith(x, y interface{}) (bool, error) {
 func in(x, y interface{}) (bool, error) {
 	if yv, ok := y.([]string); ok {
 		for _, v := range yv {
+			fmt.Printf("vy: %s\n", v)
+			fmt.Printf("x: %s\n", x)
 			if ok, _ := eq(x, v); ok {
 				return true, nil
 			}
