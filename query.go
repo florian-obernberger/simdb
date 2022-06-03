@@ -44,13 +44,9 @@ type QueryFunc func(x, y interface{}) (bool, error)
 // eq checks whether x, y are deeply eq
 func eq(x, y interface{}) (bool, error) {
 	// if the y value is numeric (int/int8-int64/float32/float64) then convert to float64
-	// if fv, ok := toFloat64(y); ok {
-	// 	y = fv
-	// }
-	// commenting this out since it returns false for:
-	//
-	//  var a int, var b int = 3, 3
-	//  fmt.Println(eq(a, b)) // → false
+	if fv, ok := toFloat64(y); ok {
+		y = fv
+	}
 	return reflect.DeepEqual(x, y), nil
 }
 
@@ -184,6 +180,18 @@ func in(x, y interface{}) (bool, error) {
 	}
 	if yv, ok := y.([]float64); ok {
 		for _, v := range yv {
+			if ok, _ := eq(x, v); ok {
+				return true, nil
+			}
+		}
+	}
+	if yv, ok := y.([]interface{}); ok {
+		for _, v := range yv {
+			if vs, ok := v.(string); ok {
+				if ok, _ := eq(x, vs); ok {
+					return true, nil
+				}
+			}
 			if ok, _ := eq(x, v); ok {
 				return true, nil
 			}
