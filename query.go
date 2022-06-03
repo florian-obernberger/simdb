@@ -214,7 +214,7 @@ func holds(x, y interface{}) (bool, error) {
 
 // notHolds checks if x doesn't contain y e.g: notHolds("[1,2,3]", 1)
 func notHolds(x, y interface{}) (bool, error) {
-	b, err := holds(y, x)
+	b, err := holds(x, y)
 	return !b, err
 }
 
