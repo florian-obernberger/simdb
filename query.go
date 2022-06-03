@@ -44,9 +44,13 @@ type QueryFunc func(x, y interface{}) (bool, error)
 // eq checks whether x, y are deeply eq
 func eq(x, y interface{}) (bool, error) {
 	// if the y value is numeric (int/int8-int64/float32/float64) then convert to float64
-	if fv, ok := toFloat64(y); ok {
-		y = fv
-	}
+	// if fv, ok := toFloat64(y); ok {
+	// 	y = fv
+	// }
+	// commenting this out since it returns false for:
+	//
+	//  var a int, var b int = 3, 3
+	//  fmt.Println(eq(a, b)) // → false
 	return reflect.DeepEqual(x, y), nil
 }
 
@@ -166,8 +170,6 @@ func strEndsWith(x, y interface{}) (bool, error) {
 func in(x, y interface{}) (bool, error) {
 	if yv, ok := y.([]string); ok {
 		for _, v := range yv {
-			fmt.Printf("vy: %s\n", v)
-			fmt.Printf("x: %s\n", x)
 			if ok, _ := eq(x, v); ok {
 				return true, nil
 			}
@@ -199,9 +201,6 @@ func notIn(x, y interface{}) (bool, error) {
 // holds checks if x contains y e.g: holds("[1,2,3]", 1)
 func holds(x, y interface{}) (bool, error) {
 	b, err := in(y, x)
-	fmt.Printf("x: %s\n\ttype: %t\n", x, x)
-	fmt.Printf("y: %s\n\ttype: %t\n", y, y)
-	fmt.Printf("y holds y: %t", b)
 	return b, err
 }
 
